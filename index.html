@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>واجهة | Wajiha | للحلول البرمجية والتصميم الإبداعي</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        tajawal: ['Tajawal', 'sans-serif'],
+                        mono: ['"IBM Plex Mono"', 'monospace'],
+                    },
+                    colors: {
+                        paper: { DEFAULT: '#f9faf6', panel: '#f4f5f7' },
+                        ink: { DEFAULT: '#0a0a0a', soft: '#526270', dsoft: '#1288e9' },
+                        steel: { DEFAULT: '#0f0f0f', dark: '#e0e5eb' },
+                        copper: { DEFAULT: '#0a0a0a', dark: '#0d0e0d' },
+                    },
+                    borderRadius: { sm: '3px' },
+                }
+            }
+        } 
+    </script>
+    <style>
+        html.dark { color-scheme: dark; }
+        body { font-family: 'Tajawal', sans-serif; }
+        .mono { font-family: 'IBM Plex Mono', monospace; direction: ltr; unicode-bidi: isolate; }
+
+        .cursor-blink { animation: blink 1.1s steps(1) infinite; }
+        @media (prefers-reduced-motion: reduce) {
+            .cursor-blink { animation: none; }
+        }
+        @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+
+        :focus-visible { outline: 2px solid #B5602B; outline-offset: 3px; }
+    </style>
+</head>
+<body class="bg-paper dark:bg-ink text-ink dark:text-paper min-h-screen flex flex-col antialiased transition-colors duration-300 grid-paper">
+
+    <!-- Header -->
+    <header class="w-full max-w-5xl mx-auto px-6 py-5 flex justify-between items-center border-b border-ink/10 dark:border-paper/10">
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 border border-ink dark:border-paper rounded-sm flex items-center justify-center font-black text-base">و</div>
+            <span class="text-lg font-extrabold tracking-tight">واجهة | Wajiha</span>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <a href="https://instagram.com/Contact us" target="_blank" rel="noopener noreferrer"
+               class="flex items-center gap-2 px-3 py-2 text-xs font-medium border border-ink/15 dark:border-paper/15 rounded-sm hover:border-copper dark:hover:border-copper-dark transition-colors"
+               aria-label="حساب الانستغرام">
+                <i class="fa-brands fa-instagram text-sm"></i>
+                <span class="hidden sm:inline mono">Contact us</span>
+            </a>
+            <button id="themeToggle" class="p-2.5 border border-ink/15 dark:border-paper/15 rounded-sm hover:border-copper dark:hover:border-copper-dark transition-colors" aria-label="تبديل المظهر">
+                <i class="fa-solid fa-moon dark:hidden"></i>
+                <i class="fa-solid fa-sun hidden dark:block"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <main class="w-full max-w-3xl mx-auto px-6 py-14 my-auto text-center flex flex-col items-center">
+
+        <h1 class="text-3xl sm:text-5xl font-black leading-tight mb-5 tracking-tight max-w-xl">
+            دقة الواجهة و صلابة الكود
+        </h1>
+
+        <p class="text-sm sm:text-lg text-ink-soft dark:text-ink-dsoft max-w-lg mb-10 leading-relaxed">
+            ندمج بين إبداع التصميم الجرافيكي وقوة البرمجة لبناء حلول رقمية متينة ترفع بعلامتك التجارية إلى المستوى التالي.
+        </p>
+
+        <button id="openModalBtn" aria-haspopup="dialog" aria-expanded="false"
+            class="inline-flex items-center gap-3 bg-copper hover:bg-copper-dark text-paper font-bold text-base px-7 py-3.5 rounded-sm transition-colors">
+            <span>ابدأ مشروعك الآن</span>
+            <i class="fa-solid fa-arrow-left"></i>
+        </button>
+    </main>
+
+    <!-- Modal -->
+    <div id="serviceModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"
+        class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/50 dark:bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+
+        <div class="bg-paper-panel dark:bg-ink border border-ink/15 dark:border-paper/15 rounded-sm p-6 sm:p-8 w-full max-w-xl relative text-center transform scale-95 transition-transform duration-300">
+
+            <button id="closeModalBtn" aria-label="إغلاق النافذة"
+                class="absolute top-4 left-4 w-9 h-9 border border-ink/15 dark:border-paper/15 rounded-sm flex items-center justify-center hover:border-copper transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <h2 id="modalTitle" class="text-xl sm:text-2xl font-extrabold mb-2">كيف يمكننا مساعدتك اليوم؟</h2>
+            <p class="text-sm text-ink-soft dark:text-ink-dsoft mb-8">اختر نوع الخدمة التي ترغب بطلبها للبدء في التفاصيل</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <a href="#dev"
+                   class="relative p-6 border border-ink/15 dark:border-paper/15 hover:border-steel dark:hover:border-steel-dark rounded-sm flex flex-col items-center gap-3 transition-colors">
+                    <span class="absolute top-3 left-3 mono text-[10px] text-ink-soft/60 dark:text-ink-dsoft/50">DEV</span>
+                    <div class="w-12 h-12 border border-steel text-steel dark:text-steel-dark rounded-sm flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-laptop-code"></i>
+                    </div>
+                    <h3 class="text-base font-bold">تطوير البرمجيات والويب</h3>
+                    <p class="text-xs text-ink-soft dark:text-ink-dsoft">مواقع وتطبيقات متكاملة وقواعد بيانات مخصصة.</p>
+                </a>
+
+                <a href="#design"
+                   class="relative p-6 border border-ink/15 dark:border-paper/15 hover:border-copper rounded-sm flex flex-col items-center gap-3 transition-colors">
+                    <span class="absolute top-3 left-3 mono text-[10px] text-ink-soft/60 dark:text-ink-dsoft/50">UI/UX</span>
+                    <div class="w-12 h-12 border border-copper text-copper dark:text-copper-dark rounded-sm flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-pen-nib"></i>
+                    </div>
+                    <h3 class="text-base font-bold">التصميم الجرافيكي</h3>
+                    <p class="text-xs text-ink-soft dark:text-ink-dsoft">واجهات مستخدم (UI/UX) وهويات بصرية عصرية.</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="w-full max-w-5xl mx-auto px-6 py-6 text-center text-xs mono text-ink-soft/70 dark:text-ink-dsoft/60 border-t border-ink/10 dark:border-paper/10">
+        &copy; 2026 — واجهة | Wajiha. جميع الحقوق محفوظة.
+    </footer>
+
+    <script>
+        // Theme handling
+        const root = document.documentElement;
+        const stored = localStorage.getItem('wajiha-theme');
+        if (stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            root.classList.add('dark');
+        }
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            root.classList.toggle('dark');
+            localStorage.setItem('wajiha-theme', root.classList.contains('dark') ? 'dark' : 'light');
+        });
+
+        // Modal handling
+        const modal = document.getElementById('serviceModal');
+        const modalPanel = modal.querySelector('div');
+        const openBtn = document.getElementById('openModalBtn');
+        const closeBtn = document.getElementById('closeModalBtn');
+
+        function openModal() {
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modalPanel.classList.remove('scale-95');
+            openBtn.setAttribute('aria-expanded', 'true');
+            closeBtn.focus();
+            document.body.style.overflow = 'hidden';
+        }
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modalPanel.classList.add('scale-95');
+            openBtn.setAttribute('aria-expanded', 'false');
+            openBtn.focus();
+            document.body.style.overflow = '';
+        }
+        openBtn.addEventListener('click', openModal);
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !modal.classList.contains('opacity-0')) closeModal();
+        });
+    </script>
+</body>
+</html>

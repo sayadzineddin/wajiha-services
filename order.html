@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">تفاصيل الطلب | واجهة</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        tajawal: ['Tajawal', 'sans-serif'],
+                        mono: ['"IBM Plex Mono"', 'monospace'],
+                    },
+                    colors: {
+                        paper: { DEFAULT: '#E7EDF1', panel: '#F4F8FA' },
+                        ink: { DEFAULT: '#16202B', soft: '#526270', dsoft: '#92A2AF' },
+                        steel: { DEFAULT: '#2F5D8C', dark: '#6FA0D0' },
+                        copper: { DEFAULT: '#B5602B', dark: '#D9824C' },
+                        whatsapp: { 500: '#25D366', 600: '#1da851' },
+                    },
+                    borderRadius: { sm: '3px' },
+                }
+            }
+        }
+    </script>
+    <style>
+        html.dark { color-scheme: dark; }
+        body { font-family: 'Tajawal', sans-serif; }
+        .mono { font-family: 'IBM Plex Mono', monospace; direction: ltr; unicode-bidi: isolate; }
+        
+        .dark .grid-paper {
+            background-image:
+                linear-gradient(rgba(231,237,241,0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(231,237,241,0.06) 1px, transparent 1px);
+        }
+        :focus-visible { outline: 2px solid #B5602B; outline-offset: 3px; }
+    </style>
+</head>
+<body class="bg-paper dark:bg-ink text-ink dark:text-paper min-h-screen flex items-center justify-center p-4 grid-paper transition-colors duration-300">
+
+    <div class="w-full max-w-lg bg-paper-panel dark:bg-ink border border-ink/15 dark:border-paper/15 rounded-sm p-6 sm:p-10">
+
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <div class="inline-flex items-center gap-2 mb-4">
+                <span id="badgeContainer" class="w-9 h-9 border rounded-sm flex items-center justify-center text-sm">
+                    <i id="badgeIcon" class="fa-solid"></i>
+                </span>
+                <span id="badgeTag" class="mono text-[11px] text-ink-soft dark:text-ink-dsoft tracking-wide"></span>
+            </div>
+            <h1 id="serviceTitle" class="text-2xl sm:text-3xl font-extrabold"></h1>
+            <p class="text-sm text-ink-soft dark:text-ink-dsoft mt-2">أدخل تفاصيل مشروعك، وسيتم توجيهك مباشرة للمحادثة عبر واتساب</p>
+        </header>
+
+        <!-- Form -->
+        <form id="orderForm" onsubmit="submitToWhatsapp(event)" class="space-y-5">
+
+            <input type="hidden" id="targetWhatsapp">
+            <input type="hidden" id="serviceName">
+
+            <div>
+                <label for="fname" class="block text-sm font-bold text-ink-soft dark:text-ink-dsoft mb-1.5">الاسم واللقب</label>
+                <div class="relative">
+                    <input type="text" id="fname" 
+                        class="w-full px-4 py-3.5 pl-10 rounded-sm border border-ink/20 dark:border-paper/20 bg-paper dark:bg-ink text-ink dark:text-paper outline-none transition-all">
+                    <i class="fa-solid fa-user absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-soft/60 dark:text-ink-dsoft/60"></i>
+                </div>
+            </div>
+
+            <div>
+                <label for="phone" class="block text-sm font-bold text-ink-soft dark:text-ink-dsoft mb-1.5">رقم الهاتف</label>
+                <div class="relative">
+                    <input type="tel" id="phone" required placeholder="06XXXXXXXX" dir="ltr"
+                        class="w-full px-4 py-3.5 pl-10 rounded-sm border border-ink/20 dark:border-paper/20 bg-paper dark:bg-ink text-ink dark:text-paper outline-none transition-all text-right">
+                    <i class="fa-solid fa-phone absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-soft/60 dark:text-ink-dsoft/60"></i>
+                </div>
+            </div>
+
+            <div>
+                <label for="goal" class="block text-sm font-bold text-ink-soft dark:text-ink-dsoft mb-1.5">تفاصيل المشروع / الهدف</label>
+                <textarea id="goal" required rows="4" placeholder="اشرح لنا فكرة مشروعك والمتطلبات الأساسية..."
+                    class="w-full px-4 py-3.5 rounded-sm border border-ink/20 dark:border-paper/20 bg-paper dark:bg-ink text-ink dark:text-paper outline-none transition-all resize-none"></textarea>
+            </div>
+
+            <button type="submit"
+                class="w-full bg-whatsapp-500 hover:bg-whatsapp-600 text-white font-bold py-4 px-6 rounded-sm flex items-center justify-center gap-3 text-lg transition-colors active:scale-[0.98]">
+                <i class="fa-brands fa-whatsapp text-2xl"></i>
+                <span>متابعة على واتساب</span>
+            </button>
+        </form>
+
+        <footer class="mt-6 text-center">
+            <a href="index.html" class="inline-flex items-center gap-2 text-sm text-ink-soft dark:text-ink-dsoft hover:text-ink dark:hover:text-paper transition-colors">
+                <i class="fa-solid fa-arrow-right"></i>
+                <span>العودة للرئيسية</span>
+            </a>
+        </footer>
+    </div>
+
+    <script>
+        // Match the theme chosen on the homepage
+        const stored = localStorage.getItem('wajiha-theme');
+        if (stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        }
+
+        // Configuration mapping
+        const devWhatsapp = "213552048599";
+        const designWhatsapp = "213697242171";
+
+        // Read query parameters from URL (e.g. order.html?service=design)
+        const urlParams = new URLSearchParams(window.location.search);
+        const serviceRequested = urlParams.get('service') || 'dev';
+
+        // DOM Elements
+        const badgeContainer = document.getElementById('badgeContainer');
+        const badgeIcon = document.getElementById('badgeIcon');
+        const badgeTag = document.getElementById('badgeTag');
+        const serviceTitle = document.getElementById('serviceTitle');
+        const pageTitle = document.getElementById('pageTitle');
+        const targetWhatsappInput = document.getElementById('targetWhatsapp');
+        const serviceNameInput = document.getElementById('serviceName');
+
+        if (serviceRequested === 'design') {
+            targetWhatsappInput.value = designWhatsapp;
+            serviceNameInput.value = "التصميم الجرافيكي (Graphic Design)";
+            serviceTitle.textContent = "التصميم الجرافيكي (Graphic Design)";
+            pageTitle.textContent = "تفاصيل الطلب | التصميم الجرافيكي (Graphic Design)";
+            badgeTag.textContent = "UI/UX";
+            badgeIcon.className = "fa-solid fa-pen-nib";
+            badgeContainer.className += " border-copper text-copper dark:text-copper-dark";
+        } else {
+            targetWhatsappInput.value = devWhatsapp;
+            serviceNameInput.value = "تطوير الويب (Web Development)";
+            serviceTitle.textContent = "تطوير الويب (Web Development)";
+            pageTitle.textContent = "تفاصيل الطلب | تطوير الويب (Web Development)";
+            badgeTag.textContent = "DEV";
+            badgeIcon.className = "fa-solid fa-laptop-code";
+            badgeContainer.className += " border-steel text-steel dark:text-steel-dark";
+        }
+
+        function submitToWhatsapp(event) {
+            event.preventDefault();
+            const phone = targetWhatsappInput.value;
+            const service = serviceNameInput.value;
+            const fname = document.getElementById('fname').value.trim();
+            const userPhone = document.getElementById('phone').value.trim();
+            const goal = document.getElementById('goal').value.trim();
+
+            const message = 
+                `مرحباً، أرغب في طلب خدمة: ${service}\n` +
+                `الاسم: ${fname}\n` +
+                `رقم الهاتف: ${userPhone}\n` +
+                `تفاصيل المشروع: ${goal}`;
+
+            const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>
